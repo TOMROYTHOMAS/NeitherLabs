@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeitherLabs - Intelligent Solutions for Tomorrow</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#00A8E8", secondary: "#1E3D59" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Product+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const isOpen = mobileMenu.classList.contains('translate-x-0');
+        
+        if (isOpen) {
+          mobileMenu.classList.remove('translate-x-0');
+          mobileMenu.classList.add('translate-x-full');
+          document.body.style.overflow = '';
+        } else {
+          mobileMenu.classList.remove('translate-x-full');
+          mobileMenu.classList.add('translate-x-0');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+    </script>
+    <script>
+      const supabaseUrl = 'https://nodccgvpmpjhzkazfctz.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZGNjZ3ZwbXBqaHprYXpmY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU0MTM0ODMsImV4cCI6MjA2MDk4OTQ4M30.dZWceGZhn8kywIqcJ24F2bdweiXIK6wIllbBH-_pX38';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+      async function handleContactSubmit(event) {
+        event.preventDefault();
+        const form = event.target;
+        const submitButton = form.querySelector('button[type="submit"]');
+        const statusMessage = document.getElementById('contactStatus');
+
+        try {
+          submitButton.disabled = true;
+          submitButton.innerHTML = 'Sending...';
+          statusMessage.textContent = '';
+
+          const formData = {
+            name: form.name.value,
+            email: form.email.value,
+            company: form.company.value,
+            message: form.message.value,
+            created_at: new Date().toISOString()
+          };
+
+          const { data, error } = await supabase
+            .from('contact_submissions')
+            .insert([formData]);
+
+          if (error) throw error;
+
+          form.reset();
+          statusMessage.textContent = 'Thank you for your message! We\'ll get back to you soon.';
+          statusMessage.className = 'text-green-600 mt-4';
+        } catch (error) {
+          console.error('Error:', error);
+          statusMessage.textContent = 'There was an error sending your message. Please try again.';
+          statusMessage.className = 'text-red-600 mt-4';
+        } finally {
+          submitButton.disabled = false;
+          submitButton.innerHTML = 'Send Message';
+        }
+      }
+    </script>
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      @keyframes fadeInUp {
+      from {
+      opacity: 0;
+      transform: translateY(20px);
+      }
+      to {
+      opacity: 1;
+      transform: translateY(0);
+      }
+      }
+      @keyframes fadeInLeft {
+      from {
+      opacity: 0;
+      transform: translateX(-20px);
+      }
+      to {
+      opacity: 1;
+      transform: translateX(0);
+      }
+      }
+      @keyframes fadeInRight {
+      from {
+      opacity: 0;
+      transform: translateX(20px);
+      }
+      to {
+      opacity: 1;
+      transform: translateX(0);
+      }
+      }
+      @keyframes scaleIn {
+      from {
+      opacity: 0;
+      transform: scale(0.95);
+      }
+      to {
+      opacity: 1;
+      transform: scale(1);
+      }
+      }
+      .animate-fadeInUp {
+      animation: fadeInUp 0.6s ease-out forwards;
+      }
+      .animate-fadeInLeft {
+      animation: fadeInLeft 0.6s ease-out forwards;
+      }
+      .animate-fadeInRight {
+      animation: fadeInRight 0.6s ease-out forwards;
+      }
+      .animate-scaleIn {
+      animation: scaleIn 0.5s ease-out forwards;
+      }
+      .animate-delay-100 {
+      animation-delay: 100ms;
+      }
+      .animate-delay-200 {
+      animation-delay: 200ms;
+      }
+      .animate-delay-300 {
+      animation-delay: 300ms;
+      }
+      .animate-delay-400 {
+      animation-delay: 400ms;
+      }
+      @media (max-width: 768px) {
+      .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      }
+      h1.text-4xl {
+      font-size: 2rem;
+      line-height: 1.2;
+      }
+      h2.text-3xl {
+      font-size: 1.875rem;
+      line-height: 1.3;
+      }
+      .py-20 {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+      }
+      .py-16 {
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+      }
+      .service-card {
+      padding: 1.5rem;
+      }
+      .grid {
+      gap: 1rem;
+      }
+      .text-lg {
+      font-size: 1rem;
+      }
+      .space-x-8 > * + * {
+      margin-left: 1rem;
+      }
+      #mobileMenu {
+      padding-top: 4rem;
+      }
+      #mobileMenu .flex-col {
+      gap: 1.5rem;
+      }
+      }
+      body {
+      font-family: 'Inter', sans-serif;
+      }
+      .gradient-text {
+      background: linear-gradient(90deg, #00A8E8, #5271FF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      }
+      .hero-gradient {
+      background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+      }
+      .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 168, 232, 0.1), 0 10px 10px -5px rgba(0, 168, 232, 0.04);
+      }
+      .floating {
+      animation: float 3s ease-in-out infinite;
+      }
+      @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+      }
+      .tech-scroll {
+      animation: scroll 30s linear infinite;
+      }
+      @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+      }
+      input:focus, textarea:focus {
+      outline: none;
+      border-color: #00A8E8;
+      }
+      .custom-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #E2E8F0;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      }
+      .custom-checkbox:checked {
+      background-color: #00A8E8;
+      border-color: #00A8E8;
+      }
+      .custom-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 2px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #E2E8F0;
+      transition: .4s;
+      border-radius: 34px;
+      }
+      .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      input:checked + .slider {
+      background-color: #00A8E8;
+      }
+      input:checked + .slider:before {
+      transform: translateX(26px);
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+    <!-- Navigation -->
+    <nav
+      class="fixed top-0 left-0 right-0 bg-white bg-opacity-95 shadow-sm z-50"
+    >
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <h1 class="text-2xl font-['Product Sans'] text-primary font-bold">NeitherLabs</h1>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a
+            href="#services"
+            class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >Services</a
+          >
+          <a
+            href="#solutions"
+            class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >Solutions</a
+          >
+          <a
+            href="#portfolio"
+            class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >Portfolio</a
+          >
+          <a
+            href="#about"
+            class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >About</a
+          >
+          <a
+            href="#contact"
+            class="text-gray-700 hover:text-primary font-medium transition-colors"
+            >Contact</a
+          >
+        </div>
+        <div
+          id="mobileMenu"
+          class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 md:hidden"
+        >
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+              <h1 class="text-2xl font-['Product Sans'] text-primary font-bold">NeitherLabs</h1>
+              <button
+                onclick="toggleMobileMenu()"
+                class="w-10 h-10 flex items-center justify-center"
+              >
+                <i class="ri-close-line ri-lg"></i>
+              </button>
+            </div>
+            <div class="flex flex-col space-y-6">
+              <a
+                href="#services"
+                onclick="toggleMobileMenu()"
+                class="text-gray-700 hover:text-primary font-medium transition-colors text-lg"
+                >Services</a
+              >
+              <a
+                href="#solutions"
+                onclick="toggleMobileMenu()"
+                class="text-gray-700 hover:text-primary font-medium transition-colors text-lg"
+                >Solutions</a
+              >
+              <a
+                href="#portfolio"
+                onclick="toggleMobileMenu()"
+                class="text-gray-700 hover:text-primary font-medium transition-colors text-lg"
+                >Portfolio</a
+              >
+              <a
+                href="#about"
+                onclick="toggleMobileMenu()"
+                class="text-gray-700 hover:text-primary font-medium transition-colors text-lg"
+                >About</a
+              >
+              <a
+                href="#contact"
+                onclick="toggleMobileMenu()"
+                class="text-gray-700 hover:text-primary font-medium transition-colors text-lg"
+                >Contact</a
+              >
+              <a
+                href="#contact"
+                class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all text-center"
+                >Get Started</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <a
+            href="#contact"
+            class="bg-primary text-white px-6 py-2 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all"
+            >Get Started</a
+          >
+          <button
+            onclick="toggleMobileMenu()"
+            class="ml-4 md:hidden w-10 h-10 flex items-center justify-center"
+          >
+            <i class="ri-menu-line ri-lg"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero Section -->
+    <section
+      class="relative pt-24 pb-16 min-h-[80vh] md:min-h-screen flex items-center"
+      style="background-image: url('https://readdy.ai/api/search-image?query=futuristic%20digital%20landscape%20with%20neural%20network%20visualization%2C%20abstract%20AI%20technology%20background%20with%20blue%20glowing%20connections%20on%20dark%20background%2C%20data%20visualization%2C%20high-tech%2C%20digital%20transformation%20concept%2C%20perfect%20for%20tech%20company%20website%20hero%20section%2C%20clean%20modern%20design&width=1920&height=1080&seq=1&orientation=landscape'); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"
+      ></div>
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="max-w-2xl">
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 animate-fadeInLeft"
+            >
+              Pioneering <span class="gradient-text">AI Solutions</span> for
+              Business Transformation
+            </h1>
+            <p
+              class="text-lg md:text-xl text-gray-700 mb-8 animate-fadeInLeft animate-delay-200"
+            >
+              We combine cutting-edge artificial intelligence, automation, and
+              development expertise to create intelligent solutions that drive
+              efficiency and innovation.
+            </p>
+            <div
+              class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-fadeInLeft animate-delay-300"
+            >
+              <a
+                href="#services"
+                class="bg-primary text-white px-8 py-3 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all text-center font-medium"
+              >
+                Explore Services
+              </a>
+              <a
+                href="#contact"
+                class="border-2 border-primary text-primary px-8 py-3 !rounded-button whitespace-nowrap hover:bg-primary hover:text-white transition-all text-center font-medium"
+              >
+                Schedule Consultation
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Our Intelligent Services
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Comprehensive technology solutions powered by artificial
+            intelligence and human expertise
+          </p>
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          id="servicesGrid"
+        >
+          <!-- Service 1 -->
+          <div
+            class="bg-white p-8 rounded-lg shadow-lg service-card transition-all duration-300"
+          >
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-6"
+            >
+              <i class="ri-brain-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">AI & Machine Learning</h3>
+            <p class="text-gray-600">
+              Custom AI solutions that analyze data patterns, automate
+              decisions, and provide predictive insights for your business.
+            </p>
+          </div>
+          <!-- Service 2 -->
+          <div
+            class="bg-white p-8 rounded-lg shadow-lg service-card transition-all duration-300"
+          >
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-6"
+            >
+              <i class="ri-settings-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Automation Solutions</h3>
+            <p class="text-gray-600">
+              Streamline operations with intelligent workflow automation that
+              reduces manual tasks and increases operational efficiency.
+            </p>
+          </div>
+          <!-- Service 3 -->
+          <div
+            class="bg-white p-8 rounded-lg shadow-lg service-card transition-all duration-300"
+          >
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-6"
+            >
+              <i class="ri-cctv-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">CCTV & Security</h3>
+            <p class="text-gray-600">
+              Advanced surveillance systems with AI-powered analytics for
+              real-time monitoring, threat detection, and security insights.
+            </p>
+          </div>
+          <!-- Service 4 -->
+          <div
+            class="bg-white p-8 rounded-lg shadow-lg service-card transition-all duration-300"
+          >
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-6"
+            >
+              <i class="ri-code-s-slash-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Web Development</h3>
+            <p class="text-gray-600">
+              Custom web solutions with modern frameworks, responsive design,
+              and AI-enhanced functionality for optimal user experience.
+            </p>
+          </div>
+          <!-- Service 5 -->
+          <div
+            class="bg-white p-8 rounded-lg shadow-lg service-card transition-all duration-300"
+          >
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-6"
+            >
+              <i class="ri-smartphone-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">App Development</h3>
+            <p class="text-gray-600">
+              Native and cross-platform mobile applications with intuitive
+              interfaces and intelligent features for iOS and Android.
+            </p>
+          </div>
+          <!-- Service 6 -->
+          <div
+            class="bg-white p-8 rounded-lg shadow-lg service-card transition-all duration-300"
+          >
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-6"
+            >
+              <i class="ri-robot-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">AI Agents & Chatbots</h3>
+            <p class="text-gray-600">
+              Intelligent virtual assistants and conversational interfaces that
+              enhance customer service and automate support functions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-20">
+      <div class="container mx-auto px-6">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
+        >
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Intelligent Solutions for Modern Challenges
+            </h2>
+            <p class="text-gray-600 mb-8">
+              Our AI-powered solutions are designed to address complex business
+              challenges across industries. We leverage cutting-edge technology
+              to deliver measurable results and competitive advantages.
+            </p>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div
+                  class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
+                >
+                  <i class="ri-line-chart-line text-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold mb-2">
+                    Predictive Analytics
+                  </h3>
+                  <p class="text-gray-600">
+                    Harness the power of data to forecast trends, anticipate
+                    customer needs, and make proactive business decisions.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
+                >
+                  <i class="ri-customer-service-2-line text-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold mb-2">
+                    Intelligent Automation
+                  </h3>
+                  <p class="text-gray-600">
+                    Streamline operations with smart workflows that adapt to
+                    changing conditions and optimize resource allocation.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
+                >
+                  <i class="ri-shield-check-line text-primary"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold mb-2">Advanced Security</h3>
+                  <p class="text-gray-600">
+                    Protect your assets with AI-enhanced security systems that
+                    detect anomalies and prevent threats in real-time.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <img
+              src="https://readdy.ai/api/search-image?query=futuristic%20technology%20visualization%20with%20holographic%20interface%2C%203D%20rendering%20of%20AI%20analytics%20dashboard%20with%20data%20visualization%2C%20blue%20and%20white%20color%20scheme%2C%20clean%20modern%20design%2C%20business%20intelligence%20concept&width=600&height=700&seq=2&orientation=portrait"
+              alt="AI Solutions Visualization"
+              class="rounded-lg shadow-xl w-full object-cover object-top h-[600px]"
+            />
+            <div
+              class="absolute -bottom-6 -left-6 bg-primary text-white p-6 rounded-lg shadow-lg"
+            >
+              <div class="text-3xl font-bold mb-2">98%</div>
+              <div class="text-sm">
+                Client satisfaction rate with our AI solutions
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Technology Stack -->
+    <section class="py-16 bg-gray-50 overflow-hidden">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Our Technology Stack
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            We leverage cutting-edge technologies to build powerful, scalable
+            solutions
+          </p>
+        </div>
+        <div class="relative">
+          <div class="flex space-x-16 tech-scroll whitespace-nowrap">
+            <div class="flex space-x-16">
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-tensorflow-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">TensorFlow</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-python-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Python</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-reactjs-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">React</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-angular-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Angular</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-nodejs-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Node.js</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-aws-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">AWS</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-database-2-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">MongoDB</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-flutter-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Flutter</span>
+              </div>
+            </div>
+            <!-- Duplicate for infinite scroll effect -->
+            <div class="flex space-x-16">
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-tensorflow-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">TensorFlow</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-python-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Python</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-reactjs-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">React</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-angular-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Angular</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-nodejs-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Node.js</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-aws-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">AWS</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-database-2-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">MongoDB</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div
+                  class="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center mb-3"
+                >
+                  <i class="ri-flutter-line ri-3x text-primary"></i>
+                </div>
+                <span class="text-sm font-medium">Flutter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Our Featured Projects
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Explore our portfolio of innovative solutions that have transformed
+            businesses
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 mt-8">
+            <button
+              class="bg-primary text-white px-6 py-2 !rounded-full whitespace-nowrap"
+            >
+              All Projects
+            </button>
+            
+            
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        >
+          <!-- Project 1 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=ai-powered%20predictive%20analytics%20dashboard%20with%20data%20visualization%2C%20business%20intelligence%20platform%20with%20charts%20and%20graphs%2C%20blue%20and%20white%20color%20scheme%2C%20modern%20UI%20design%2C%20enterprise%20software%20interface&width=600&height=400&seq=3&orientation=landscape"
+                alt="Predictive Analytics Platform"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <div class="p-6">
+                  <span
+                    class="text-white text-sm font-medium bg-primary px-3 py-1 rounded-full"
+                    >AI & ML</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">
+                Predictive Analytics Platform
+              </h3>
+              <p class="text-gray-600">
+                AI-powered analytics solution for a Fortune 500 retail company
+                that increased forecast accuracy by 37%.
+              </p>
+            </div>
+          </div>
+          <!-- Project 2 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=smart%20security%20surveillance%20system%20with%20AI%20facial%20recognition%2C%20security%20camera%20monitoring%20interface%20with%20person%20detection%2C%20modern%20CCTV%20control%20center%2C%20blue%20and%20dark%20interface&width=600&height=400&seq=4&orientation=landscape"
+                alt="Smart Surveillance System"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <div class="p-6">
+                  <span
+                    class="text-white text-sm font-medium bg-primary px-3 py-1 rounded-full"
+                    >Security</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">
+                Smart Surveillance System
+              </h3>
+              <p class="text-gray-600">
+                AI-enhanced security solution for a commercial complex that
+                reduced incident response time by 68%.
+              </p>
+            </div>
+          </div>
+          <!-- Project 3 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=automated%20workflow%20process%20visualization%2C%20business%20process%20automation%20software%20interface%2C%20digital%20transformation%20solution%20with%20workflow%20diagrams%2C%20modern%20enterprise%20software%20UI&width=600&height=400&seq=5&orientation=landscape"
+                alt="Workflow Automation Platform"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <div class="p-6">
+                  <span
+                    class="text-white text-sm font-medium bg-primary px-3 py-1 rounded-full"
+                    >Automation</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">
+                Workflow Automation Platform
+              </h3>
+              <p class="text-gray-600">
+                Intelligent process automation solution for a financial services
+                firm that improved operational efficiency by 42%.
+              </p>
+            </div>
+          </div>
+          <!-- Project 4 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=mobile%20app%20interface%20for%20healthcare%20with%20patient%20monitoring%20dashboard%2C%20medical%20app%20UI%20design%2C%20telemedicine%20application%20with%20clean%20modern%20interface%2C%20blue%20and%20white%20color%20scheme&width=600&height=400&seq=6&orientation=landscape"
+                alt="Healthcare Mobile App"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <div class="p-6">
+                  <span
+                    class="text-white text-sm font-medium bg-primary px-3 py-1 rounded-full"
+                    >Web & App</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">Healthcare Mobile App</h3>
+              <p class="text-gray-600">
+                AI-powered telemedicine application for a healthcare provider
+                that increased patient engagement by 53%.
+              </p>
+            </div>
+          </div>
+          <!-- Project 5 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=conversational%20AI%20chatbot%20interface%20with%20natural%20language%20processing%2C%20customer%20service%20virtual%20assistant%20UI%2C%20modern%20chat%20interface%20with%20AI%20responses%2C%20clean%20design%20with%20blue%20accent%20colors&width=600&height=400&seq=7&orientation=landscape"
+                alt="AI Customer Service Chatbot"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <div class="p-6">
+                  <span
+                    class="text-white text-sm font-medium bg-primary px-3 py-1 rounded-full"
+                    >AI & ML</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">
+                AI Customer Service Chatbot
+              </h3>
+              <p class="text-gray-600">
+                Intelligent virtual assistant for an e-commerce company that
+                resolved 78% of customer inquiries without human intervention.
+              </p>
+            </div>
+          </div>
+          <!-- Project 6 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+            <div class="relative overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=e-commerce%20website%20with%20AI%20product%20recommendations%2C%20online%20shopping%20platform%20with%20modern%20UI%2C%20responsive%20web%20design%20for%20retail%2C%20clean%20interface%20with%20product%20catalog&width=600&height=400&seq=8&orientation=landscape"
+                alt="E-Commerce Platform"
+                class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <div class="p-6">
+                  <span
+                    class="text-white text-sm font-medium bg-primary px-3 py-1 rounded-full"
+                    >Web & App</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">E-Commerce Platform</h3>
+              <p class="text-gray-600">
+                AI-enhanced online shopping experience for a retail brand that
+                increased conversion rates by 28%.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Why Choose Us -->
+    <section id="about" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Why Choose Us</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            We combine technical expertise with business acumen to deliver
+            solutions that drive real results
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Advantage 1 -->
+          <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <i class="ri-award-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Industry Expertise</h3>
+            <p class="text-gray-600">
+              Our team brings deep domain knowledge across finance, healthcare,
+              retail, and manufacturing sectors.
+            </p>
+            <div class="mt-6 text-3xl font-bold text-primary">12+</div>
+            <div class="text-sm text-gray-500">
+              Years of industry experience
+            </div>
+          </div>
+          <!-- Advantage 2 -->
+          <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <i class="ri-team-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Expert Team</h3>
+            <p class="text-gray-600">
+              Our specialists hold advanced degrees and certifications in AI,
+              machine learning, and software engineering.
+            </p>
+            <div class="mt-6 text-3xl font-bold text-primary">50+</div>
+            <div class="text-sm text-gray-500">Certified AI specialists</div>
+          </div>
+          <!-- Advantage 3 -->
+          <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+            <div
+              class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <i class="ri-customer-service-2-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Client Success</h3>
+            <p class="text-gray-600">
+              We measure our success by the tangible results and ROI we deliver
+              to our clients.
+            </p>
+            <div class="mt-6 text-3xl font-bold text-primary">200+</div>
+            <div class="text-sm text-gray-500">
+              Successful projects delivered
+            </div>
+          </div>
+        </div>
+        <!-- Testimonials -->
+        <div class="mt-20">
+          <h3 class="text-2xl font-bold text-center mb-12">
+            What Our Clients Say
+          </h3>
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
+            <!-- Testimonial 1 -->
+            <div class="bg-white p-8 rounded-lg shadow-lg relative">
+              <div
+                class="absolute -top-5 left-8 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center"
+              >
+                <i class="ri-double-quotes-l"></i>
+              </div>
+              <p class="text-gray-600 mb-6 pt-4">
+                "The AI-powered analytics solution developed by this team has
+                transformed our decision-making process. We've seen a 32%
+                increase in operational efficiency within just three months."
+              </p>
+              <div class="flex items-center">
+                <div
+                  class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4"
+                >
+                  <i class="ri-user-line text-gray-500"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Michael Richardson</h4>
+                  <p class="text-sm text-gray-500">
+                    CTO, Global Retail Solutions
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Testimonial 2 -->
+            <div class="bg-white p-8 rounded-lg shadow-lg relative">
+              <div
+                class="absolute -top-5 left-8 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center"
+              >
+                <i class="ri-double-quotes-l"></i>
+              </div>
+              <p class="text-gray-600 mb-6 pt-4">
+                "Their expertise in automation has completely revolutionized our
+                workflow. The custom solution they built has eliminated manual
+                processes and reduced errors by 87%. Exceptional work!"
+              </p>
+              <div class="flex items-center">
+                <div
+                  class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4"
+                >
+                  <i class="ri-user-line text-gray-500"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Sophia Martinez</h4>
+                  <p class="text-sm text-gray-500">
+                    Operations Director, FinTech Innovations
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Testimonial 3 -->
+            <div class="bg-white p-8 rounded-lg shadow-lg relative">
+              <div
+                class="absolute -top-5 left-8 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center"
+              >
+                <i class="ri-double-quotes-l"></i>
+              </div>
+              <p class="text-gray-600 mb-6 pt-4">
+                "The AI-enhanced security system they implemented has given us
+                unprecedented visibility and control. Security incidents are
+                down 64%, and our team can respond proactively to potential
+                threats."
+              </p>
+              <div class="flex items-center">
+                <div
+                  class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4"
+                >
+                  <i class="ri-user-line text-gray-500"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">David Williamson</h4>
+                  <p class="text-sm text-gray-500">
+                    Security Director, Enterprise Solutions
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+      <div class="container mx-auto px-6">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
+        >
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Let's Build Your Intelligent Solution
+            </h2>
+            <p class="text-gray-600 mb-8">
+              Ready to transform your business with AI-powered technology?
+              Contact us to schedule a consultation with our experts.
+            </p>
+            <form class="space-y-6" onsubmit="handleContactSubmit(event)">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Full Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded focus:border-primary focus:ring-0"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded focus:border-primary focus:ring-0"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  for="company"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Company</label
+                >
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:border-primary focus:ring-0"
+                  placeholder="Your company name"
+                />
+              </div>
+              <div>
+                <label
+                  for="service"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Service of Interest</label
+                >
+                <div class="relative">
+                  <select
+                    id="service"
+                    class="w-full px-4 py-3 border border-gray-300 rounded focus:border-primary focus:ring-0 appearance-none pr-8"
+                  >
+                    <option value="" disabled selected>Select a service</option>
+                    <option value="ai-ml">AI & Machine Learning</option>
+                    <option value="automation">Automation Solutions</option>
+                    <option value="security">CCTV & Security</option>
+                    <option value="web">Web Development</option>
+                    <option value="app">App Development</option>
+                    <option value="chatbot">AI Agents & Chatbots</option>
+                  </select>
+                  <div
+                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+                  >
+                    <i class="ri-arrow-down-s-line text-gray-400"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  for="message"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Message</label
+                >
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:border-primary focus:ring-0"
+                  placeholder="Tell us about your project or requirements"
+                ></textarea>
+              </div>
+            
+              <button
+                type="submit"
+                class="bg-primary text-white px-8 py-3 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all font-medium"
+              >
+                Send Message
+              </button>
+              <div id="contactStatus" class="mt-4"></div>
+            </form>
+          </div>
+          <div class="relative h-[600px] rounded-lg overflow-hidden shadow-xl">
+            <img
+              src="https://readdy.ai/api/search-image?query=futuristic%203D%20visualization%20of%20AI%20technology%2C%20abstract%20digital%20neural%20network%20with%20glowing%20blue%20connections%2C%20high-tech%20concept%20art%2C%20clean%20modern%20design%20with%20depth%20and%20dimension&width=600&height=700&seq=9&orientation=portrait"
+              alt="AI Technology Visualization"
+              class="w-full h-full object-cover object-top"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8"
+            >
+              <h3 class="text-2xl font-bold text-white mb-4">
+                Connect With Us
+              </h3>
+              <div class="mb-6">
+                <img
+                  src="https://static.readdy.ai/image/fd5d47ac541f70dfed193882d1f4d6e6/f6da9c4ef1c17c2a5a9356640e49e300.jpeg"
+                  alt="NeitherLab Logo"
+                  class="w-48 h-auto mb-6"
+                />
+              </div>
+              <div class="space-y-4 text-white">
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-map-pin-line text-white"></i>
+                  </div>
+                  <span>Koramangala, Bangalore, Karnataka 560034</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-mail-line text-white"></i>
+                  </div>
+                  <span>neitherlab@gmail.com</span>
+                </div>
+                <div class="flex items-center mt-4">
+                  <div
+                    class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-snapchat-fill text-white"></i>
+                  </div>
+                  <span>@neitherlabs_official</span>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-4 mt-6">
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+                >
+                  <i class="ri-linkedin-fill text-white"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+                >
+                  <i class="ri-twitter-x-fill text-white"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+                >
+                  <i class="ri-facebook-fill text-white"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+                >
+                  <i class="ri-instagram-fill text-white"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- CTA Section -->
+    <!-- CTA Section -->
+    <section
+      class="py-20 relative"
+      style="background-image: url('https://readdy.ai/api/search-image?query=abstract%20technology%20background%20with%20blue%20gradient%2C%20futuristic%20digital%20pattern%20with%20glowing%20particles%2C%20tech%20concept%20art%20with%20smooth%20transitions%2C%20perfect%20for%20website%20CTA%20section&width=1920&height=600&seq=10&orientation=landscape'); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-secondary/90 to-primary/80"
+      ></div>
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-3xl mx-auto text-center text-white">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Ready to Transform Your Business with AI?
+          </h2>
+          <p class="text-xl mb-8">
+            Schedule a free consultation with our experts to explore how our
+            intelligent solutions can drive your success.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#contact"
+              class="bg-white text-primary px-8 py-3 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all text-center font-medium"
+            >
+              Schedule Consultation
+            </a>
+            <a
+              href="#portfolio"
+              class="border-2 border-white text-white px-8 py-3 !rounded-button whitespace-nowrap hover:bg-white hover:text-primary transition-all text-center font-medium"
+            >
+              View Our Work
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Section -->
+    
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-16 pb-8">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div>
+            <h1 class="text-3xl font-['Pacifico'] text-white mb-6">logo</h1>
+            <p class="text-gray-300 mb-6">
+              Pioneering AI-powered solutions that transform businesses and
+              drive innovation in a rapidly evolving digital landscape.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-twitter-x-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-snapchat-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-6">Services</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >AI & Machine Learning</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Automation Solutions</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >CCTV & Security</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Web Development</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >App Development</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >AI Agents & Chatbots</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-6">Company</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Our Team</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Case Studies</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-6">Newsletter</h3>
+            <p class="text-gray-300 mb-4">
+              Subscribe to our newsletter for the latest insights on AI and
+              technology.
+            </p>
+            <form class="space-y-4">
+              <div class="relative">
+                <input
+                  type="email"
+                  class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded text-white placeholder-gray-400 focus:outline-none focus:border-primary"
+                  placeholder="Your email address"
+                />
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-primary text-white px-4 py-3 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all font-medium"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <hr class="border-white/10 my-12" />
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="text-gray-400 mb-4 md:mb-0 text-center md:text-left">
+            &copy; 2025 NeitherLabs. All rights reserved.
+          </div>
+          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors"
+              >Privacy Policy</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white transition-colors"
+              >Terms of Service</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white transition-colors"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+      function animateOnScroll() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fadeInUp");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+          },
+        );
+        document
+          .querySelectorAll(".service-card, .bg-white.p-8, .bg-white.p-6")
+          .forEach((el) => {
+            el.style.opacity = "0";
+            observer.observe(el);
+          });
+      }
+      function animateServicesGrid() {
+        const services = document.querySelectorAll("#servicesGrid > div");
+        services.forEach((service, index) => {
+          service.style.opacity = "0";
+          service.style.animation = `fadeInUp 0.6s ease-out ${index * 0.2}s forwards`;
+        });
+      }
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById("mobileMenu");
+        const isOpen = mobileMenu.classList.contains("translate-x-0");
+        if (isOpen) {
+          mobileMenu.classList.remove("translate-x-0");
+          mobileMenu.classList.add("translate-x-full");
+          document.body.style.overflow = "";
+        } else {
+          mobileMenu.classList.remove("translate-x-full");
+          mobileMenu.classList.add("translate-x-0");
+          document.body.style.overflow = "hidden";
+        }
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        animateOnScroll();
+        animateServicesGrid();
+        // Add click handlers for internship application buttons
+        document.querySelectorAll(".hiring-section button").forEach((button) => {
+          button.addEventListener("click", function () {
+            const position = this.closest("div").querySelector("h3").textContent;
+            const applicationModal = document.createElement("div");
+            applicationModal.className =
+              "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+            applicationModal.innerHTML = `
+      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+      <h3 class="text-2xl font-semibold mb-4">Apply for ${position}</h3>
+      <form class="space-y-4">
+      <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+      <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary focus:ring-0" required>
+      </div>
+      <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+      <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary focus:ring-0" required>
+      </div>
+      <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+      <input type="tel" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary focus:ring-0" required>
+      </div>
+      <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Resume/CV</label>
+      <input type="file" class="w-full" accept=".pdf,.doc,.docx" required>
+      </div>
+      <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Cover Letter</label>
+      <textarea class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary focus:ring-0" rows="4" required></textarea>
+      </div>
+      <div class="flex justify-end space-x-4 mt-6">
+      <button type="button" class="px-4 py-2 text-gray-600 hover:text-gray-800" onclick="this.closest('.fixed').remove()">Cancel</button>
+      <button type="submit" class="bg-primary text-white px-6 py-2 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all">Submit Application</button>
+      </div>
+      </form>
+      </div>
+      `;
+            document.body.appendChild(applicationModal);
+            applicationModal
+              .querySelector("form")
+              .addEventListener("submit", function (e) {
+                e.preventDefault();
+                const successMessage = document.createElement("div");
+                successMessage.className =
+                  "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+                successMessage.innerHTML = `
+      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
+      <i class="ri-checkbox-circle-line text-primary text-5xl mb-4"></i>
+      <h3 class="text-2xl font-semibold mb-2">Application Submitted!</h3>
+      <p class="text-gray-600 mb-6">Thank you for your interest. We'll review your application and get back to you soon.</p>
+      <button class="bg-primary text-white px-6 py-2 !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all" onclick="this.closest('.fixed').remove()">Close</button>
+      </div>
+      `;
+                applicationModal.remove();
+                document.body.appendChild(successMessage);
+              });
+          });
+        });
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          });
+        });
+        // Portfolio filter functionality
+        const portfolioGrid = document.querySelector("#portfolio .grid");
+        const originalItems = portfolioGrid.innerHTML;
+        const filterButtons = document.querySelectorAll("#portfolio button");
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Remove active class from all buttons
+            filterButtons.forEach((btn) => {
+              btn.classList.remove("bg-primary", "text-white");
+              btn.classList.add("bg-gray-100", "text-gray-700");
+            });
+            // Add active class to clicked button
+            this.classList.remove("bg-gray-100", "text-gray-700");
+            this.classList.add("bg-primary", "text-white");
+            const category = this.textContent.trim();
+            if (category === "All Projects") {
+              portfolioGrid.innerHTML = originalItems;
+            } else {
+              const filteredHTML = Array.from(portfolioGrid.children)
+                .filter((item) => {
+                  const itemCategory =
+                    item.querySelector(".rounded-full").textContent;
+                  return itemCategory === category;
+                })
+                .map((item) => item.outerHTML)
+                .join("");
+              portfolioGrid.innerHTML =
+                filteredHTML ||
+                `
+      <div class="col-span-full text-center py-12">
+      <p class="text-gray-500">No projects found in this category.</p>
+      </div>
+      `;
+            }
+          });
+        });
+        // Performance Chart
+        const performanceChart = echarts.init(
+          document.getElementById("performanceChart"),
+        );
+        const option = {
+          animation: false,
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          legend: {
+            data: [
+              "Efficiency Improvement",
+              "Cost Reduction",
+              "Customer Satisfaction",
+            ],
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            top: "15%",
+            containLabel: true,
+          },
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: ["2020", "2021", "2022", "2023", "2024", "2025"],
+            axisLine: {
+              lineStyle: {
+                color: "#1f2937",
+              },
+            },
+          },
+          yAxis: {
+            type: "value",
+            axisLine: {
+              lineStyle: {
+                color: "#1f2937",
+              },
+            },
+            splitLine: {
+              lineStyle: {
+                color: "rgba(31, 41, 55, 0.1)",
+              },
+            },
+          },
+          series: [
+            {
+              name: "Efficiency Improvement",
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 3,
+                color: "rgba(87, 181, 231, 1)",
+              },
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.01)",
+                    },
+                  ],
+                },
+              },
+              data: [20, 32, 41, 54, 60, 68],
+            },
+            {
+              name: "Cost Reduction",
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 3,
+                color: "rgba(141, 211, 199, 1)",
+              },
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(141, 211, 199, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(141, 211, 199, 0.01)",
+                    },
+                  ],
+                },
+              },
+              data: [15, 22, 30, 43, 51, 62],
+            },
+            {
+              name: "Customer Satisfaction",
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 3,
+                color: "rgba(251, 191, 114, 1)",
+              },
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(251, 191, 114, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(251, 191, 114, 0.01)",
+                    },
+                  ],
+                },
+              },
+              data: [80, 85, 88, 92, 95, 98],
+            },
+          ],
+        };
+        performanceChart.setOption(option);
+        // Responsive chart
+        window.addEventListener("resize", function () {
+          performanceChart.resize();
+        });
+      });
+    </script>
+  </body>
+</html>
